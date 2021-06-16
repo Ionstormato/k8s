@@ -1,13 +1,5 @@
 ssh_authorized_keys:
-- ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCmGENX1QHtLel4mJAx3g8dqRKZLvMVfEPhSWHvtvuJGYrxltZxyu1rdp7kMgHDa78DLwzy7RqkIAk23SYsfa5OmUuzeCTCfJ6lERO2j4z6X01XicgJZOC0pZyzgY4jajXcsKVgtfU4k6RhxKMjfh4NP5druMQ68KnT8kG01HJy4ZeFGVgNVf7HU/VHdOaUu2RJGOlEbWGu8X+KwtJy0//RUWKGyo3dYpHnDOwDgheiFeJUEGZTzJJNtVqrUjVwd3kQKJzk3lniOvft9gyzg9xYFEMfVkjIuoCq5kslKSkzAdOfkQcZNy8qL+ugu78bvZSgcpDUnBJyWTub1IjkmJSv+x/IJzf7hFkq64UiNl3JEn45cANX7uFQ9pLxLQn7FWcjsbk5bCcfJielYU3FZBTkIV7VhFYOKtvNFcyfHOZBcKWVUzuxGZYXSqqdoFTK7etwpKF+8/RlojcoJz1qIAlW2GqOyeOxnpV820RMAAH2x7/3zdibSc5gnn4plaOQ49QAGiEjLpxNB4D9bZ5HtJFdcSmp2ed/ol/BPq77MvrxF8FvtcpW8MwKeFn+ijUy4IMD10rhWVn4irgFAf51p0rQzJGvh52uILvRoQOQFLAmZbtKL/M348ulejKq+LSH5qYibDxwZQGdbmrAcZX1PTK+goRBqCy53gZvNA5so2GjCw== andrejkohut@Andrejs-MacBook-Pro.local
-- github:Ionstormato
-- encoding: ""
-  content: |-
-    #!/bin/bash
-    echo hello, local service start
-  owner: root
-  path: /etc/local.d/example.start
-  permissions: '0755'
+- github:ionstormato
 hostname: myhost
 init_cmd:
 - "echo hello, init command"
@@ -22,32 +14,12 @@ k3os:
   modules:
   - kvm
   - nvme
-  sysctl:
-    kernel.printk: "4 4 1 7"
-    kernel.kptr_restrict: "1"
   dns_nameservers:
   - 8.8.8.8
   - 1.1.1.1
   ntp_servers:
   - 0.us.pool.ntp.org
   - 1.us.pool.ntp.org
-  wifi:
-  - name: home
-    passphrase: mypassword
-  - name: nothome
-    passphrase: somethingelse
-  password: rancher
-  server_url: https://someserver:6443
-  token: TOKEN_VALUE
-  labels:
-    region: us-west-1
-    somekey: somevalue
   k3s_args:
   - server
   - "--disable-agent"
-  environment:
-    http_proxy: http://myserver
-    https_proxy: http://myserver
-  taints:
-  - key1=value1:NoSchedule
-  - key1=value1:NoExecute
