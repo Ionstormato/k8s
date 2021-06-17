@@ -5,9 +5,9 @@ write_files:
   content: |-
     [service_eth0]
     Type=ethernet
-    IPv4=192.168.200.2/255.255.255.0/192.168.200.1
+    IPv4=192.168.1.155/255.255.255.0/192.168.1.1
     IPv6=off
-    Nameservers=192.168.200.1
+    Nameservers=192.168.1.1
 hostname: myhost
 init_cmd:
 - "echo hello, init command"
