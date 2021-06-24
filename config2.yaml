@@ -1,0 +1,24 @@
+ssh_authorized_keys:
+- github:ionstormato
+hostname: myhost-agent
+init_cmd:
+- "echo hello, init command"
+boot_cmd:
+- "echo hello, boot command"
+run_cmd:
+- "echo hello, run command"
+
+k3os:
+  data_sources:
+  - cdrom
+  modules:
+  - kvm
+  - nvme
+  dns_nameservers:
+  - 8.8.8.8
+  - 1.1.1.1
+  ntp_servers:
+  - 0.us.pool.ntp.org
+  - 1.us.pool.ntp.org
+  server_url: https://192.168.1.241:6443
+  token: K109fb543e0b3347b29595e3ec0660aba33988a48771243204bc250c3ae9a9af529::server:49746d3f67918b9ed846d16b37353d8b
