@@ -20,6 +20,7 @@ k3os:
   ntp_servers:
   - 0.us.pool.ntp.org
   - 1.us.pool.ntp.org
+  token: K109fb543e0b3347b29595e3ec0660aba33988a48771243204bc250c3ae9a9af529::server:49746d3f67918b9ed846d16b37353d8b
   k3s_args:
   - server
   - "--disable-agent"
