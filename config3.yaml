@@ -1,0 +1,140 @@
+ssh_authorized_keys:
+- "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtushScyRJzIiqCqPX3D7Zi2gXJR0aVm6QfQYxBc7xyLSa4uJ8I8ANAJv3IK4xmSNDKt0vyHpUu9XGjOUqLvc4ooANwvonEZCmDHepofF1ez9Q0ts6KVYJrOymjjMf6BlZjmb0Ox7iDvBNKPWvP8cOzHZ47kn9sLUANx03s+uZDbuXgUANiA/+464tFg2koJc6MwsKU/e8r0olqV7IlLVOdrjq0xuxYlNkcWtqEYhydJcM+tHZXwrkvyrUxmBKDqypO/7steT9L4fZti6+T2DPZ+uG2SNb0LfAdQfoxhuxFcsVcgVkpiLI5s7G2514ZqUV5nQmnvjvzZs5x5hYZ6bv eip@DESKTOP-6S6C1KQ"
+
+boot_cmd:
+  # https://docs.microsoft.com/en-us/windows-server/virtualization/hyper-v/best-practices-for-running-linux-on-hyper-v#use-io-scheduler-noop-for-better-disk-io-performance
+  # does not work anymore. worked in 0.5.0
+  # "echo 'noop' > /sys/block/sda/queue/scheduler"
+
+write_files:
+- encoding: ""
+  owner: root
+  path: /var/lib/connman/service.config
+  permissions: '0755'
+  content: |-
+    [service_hyperv]
+    Type = ethernet
+    IPv4.method=manual
+    IPv4=192.168.1.241/255.255.255.0/192.168.1.1
+    IPv6=off
+    MAC=00:15:5d:00:27:11
+- encoding: ""
+  owner: root
+  path: /etc/resolv.conf
+  permissions: '0755'
+  content: |-
+    nameserver 9.9.9.9
+- encoding: ""
+  owner: root
+  path: /var/lib/rancher/k3s/server/manifests/nginx-ingress.yaml
+  permissions: '0755'
+  content: |-
+    ---
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      annotations: {}
+      labels:
+        name: nginx-ingress
+      name: nginx-ingress
+    ---
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      annotations: {}
+      labels:
+        name: tls-secret
+      name: tls-secret
+      namespace: nginx-ingress
+    stringData:
+      tls.crt: |-
+        -----BEGIN CERTIFICATE-----
+        MIIDFDCCAfygAwIBAgIJALaytDkBrcmFMA0GCSqGSIb3DQEBCwUAMB8xHTAbBgNV
+        BAMMFCouazNvcy5laXAtY2xvdWQuY29tMB4XDTIwMDIxMjEzMDMzNloXDTI5MTIy
+        MTEzMDMzNlowHzEdMBsGA1UEAwwUKi5rM29zLmVpcC1jbG91ZC5jb20wggEiMA0G
+        CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC2oAVWs82FSOsDKI2qEvL0QWp/Cvjq
+        K67U2NIz7bkgbaVVRGdYk2uPVf1nkn68+5KlAGNDr2gUfI5VktY2/G2Yf/tRe0Jk
+        sAWOzrbOgZWIzVIekX2CpNrHSnZgXEidkjrf1KZM96VTdDQuijhH8ypYLpCoD2pk
+        E20pX0fO3Xvl3JD8UAmzKDGX4DvGN7ciKOIBYXjjLQpfRF3YU4e2Ntd83MtC/jLs
+        i9JcKt8F5qEK/ncAXUs6R4IflezJETf3NM4/n4Mk6MMimF60Abg9+yt95Oyq/FhG
+        5BzCBzyT87OaU3CPDBKWUUnBELuDWTCbi+cM57A5HNg4/dGcyv4RXkUFAgMBAAGj
+        UzBRMB0GA1UdDgQWBBTjoDAgMvaKBlxKEc47aTG9H5kF7jAfBgNVHSMEGDAWgBTj
+        oDAgMvaKBlxKEc47aTG9H5kF7jAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEB
+        CwUAA4IBAQBu9B+sEIyIrrCLlIBX90DfI35kWoO/N2vyfRFmkJ0XIPKGFyZZhe57
+        4SIlNhSYvFMAcELuHZ3gizBYsnsnWqU9gDPsWFoX9fGsmTKEq5Jhq1O75Bnxk7EL
+        E33IvwdJ2y1NsFtJf0ZlzU4UpPpqf4QxYt7won40mab+pCPfiY8Wz/FabJMMjOKR
+        mZzDXIaKJG8fXJ4uIVZezEVB/5kH/tMkJglrGFS4dviESx2we4qRRxECLy1kbi28
+        n28lhAfLpKS0gNJsClkSd8AChplKi3P1LHOIVWSp1KzxJmtjQsGytntegCZzAuXV
+        1TBU2sK81Vtua3oNNhb71NZIZsoDso6o
+        -----END CERTIFICATE-----
+      tls.key: |-
+        -----BEGIN PRIVATE KEY-----
+        MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC2oAVWs82FSOsD
+        KI2qEvL0QWp/CvjqK67U2NIz7bkgbaVVRGdYk2uPVf1nkn68+5KlAGNDr2gUfI5V
+        ktY2/G2Yf/tRe0JksAWOzrbOgZWIzVIekX2CpNrHSnZgXEidkjrf1KZM96VTdDQu
+        ijhH8ypYLpCoD2pkE20pX0fO3Xvl3JD8UAmzKDGX4DvGN7ciKOIBYXjjLQpfRF3Y
+        U4e2Ntd83MtC/jLsi9JcKt8F5qEK/ncAXUs6R4IflezJETf3NM4/n4Mk6MMimF60
+        Abg9+yt95Oyq/FhG5BzCBzyT87OaU3CPDBKWUUnBELuDWTCbi+cM57A5HNg4/dGc
+        yv4RXkUFAgMBAAECggEASc5GGhI0fydHA1HCXvelhJ1jYtCWZF0fHRo7aY0rgjWN
+        2fX5Jkz97UG9VbxYyBuL2m9brqEXGSB1jZP4SuSdjkI62WVNIdAZjutv6elo+46v
+        H3eBF+l0GZK4YJ0rI7NTY95XD0gOYrnV1PE7aaiWdmjrQWBpiORo+41sQeg1CGH6
+        IynPdI0qShRsnz+YglqS6+zOznm3tPktrDnxD3wGvqJ3sAHCv7Vokkzt5RGTLlea
+        7CAq9e95oETkOaSx5tkJ0TcEwRwAkHi8YfVuehWwHxhncc/7KnkSbWWKYoXmgx6B
+        On3DCKXefugmjt+UG2ZpEl7YghhFqpnjD5054WIdwQKBgQDsoYG2lpmb+H58kql5
+        ttFO1E9iRmtLqF97DRkyiafGfLcmY6ZXIUBuAp3HZjuxKfZuZAPBnsHwWZJvOnG8
+        rp+So4C0BGKHGJn5IZ5AzU5KE2jTAon/wiiv6KRmTIITbvk6Vo5AW6+iqs5TbpjQ
+        TGHEHhtq8X9XGiT1F8voJOMaeQKBgQDFktjQvXFPKyNIIDQGTqT7rKhcNfMdUEHm
+        ePWAhQa0G+ARmsMjXMwTVidZ/KehB2BdKsAd0Sk11n95eR44RHnGxWJGQzdUI+J5
+        fs7dfjSU+UcNA3Ftge1FY9+Z6Gj5hswgNl/1nrzhA60Ue+tlwEjPZWneFPrbHfZT
+        N2shnPQb7QKBgQDadHQC89/WHT/wk5mAM2XiZ6Dt8mLl0whq2nnTrT/Fv6d5+m87
+        awhHR4UP6/LZqQrHeO/61SzoTlkg9IzCC1hoESgliRLI885aME4gNym6u1Z/z41F
+        H6NeWuFDTAieFkpiMDxdcAeinhui7KyJSKrNWponTdIowIsz9gcaRsueyQKBgByW
+        mg7iSqIFAO7v0fdTq+XK3vWwzMPiGBcMS6HUHdsz6WFCvpfAVrs5jSolN/BCC/yP
+        Mgted5MVvY5LK0dDCUfsycKW+UuQgbXI1pAQMfWYeGJ2rBQHZ9jRkcpIaeApVCIZ
+        HBuDY5s/l+zN3Yr0ntR7vSzoZkAMftcdvr+3YU8lAoGBAN+DC2Iset7q9xE+r0cS
+        Wx2l8HBuqxYhjrmvmqM0s7PTwYmayK+xvJLLDkKChQecSbArX5PwaAV3G7rLKRlS
+        Arhtom7xj0zxXY2pT4OBCTWvL6YQXaRUhWaQeKS8xcvttMqzLKy9MO1Saa9ZdB01
+        Aj7gPbhuA9wJrwx61dcAnoDO
+        -----END PRIVATE KEY-----
+    ---
+    apiVersion: helm.cattle.io/v1
+    kind: HelmChart
+    metadata:
+      name: nginx-ingress
+      namespace: kube-system
+    spec:
+      chart: ingress-nginx
+      repo: https://kubernetes.github.io/ingress-nginx
+      targetNamespace: nginx-ingress
+      version: 3.22.0
+      set:
+        controller.extraArgs.enable-ssl-passthrough: ""
+        controller.extraArgs.default-ssl-certificate: "nginx-ingress/tls-secret"
+hostname: k3os.eip-cloud.com
+
+k3os:
+  #data_sources:
+  #- aws
+  #- cdrom
+  #modules:
+  #- kvm
+  #- nvme
+  sysctl:
+    kernel.printk: 4 4 1 7
+    kernel.kptr_restrict: 1
+  #dns_nameservers:
+  #- 8.8.8.8
+  #- 1.1.1.1
+  ntp_servers:
+  - 0.de.pool.ntp.org
+  - 1.de.pool.ntp.org
+  # without password ssh access will be denied
+  password: eip
+  # server_url: https://k3os.eip-cloud.com:6443
+  token: eip
+  k3s_args:
+  - server
+  - "--bind-address=192.168.1.241" # this will be used as the IP in generated kubeconfig file. See https://github.com/rancher/k3s/blob/f36067760166db0966de43949d0dc2b4a588f3e7/pkg/server/server.go#L259
+  - "--log=/var/log/k3s.log"
+  - "--no-deploy=traefik" # we use nginx
+  - "--node-external-ip=192.168.1.241"
