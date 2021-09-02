@@ -136,5 +136,5 @@ k3os:
   - server
   - "--bind-address=192.168.1.241" # this will be used as the IP in generated kubeconfig file. See https://github.com/rancher/k3s/blob/f36067760166db0966de43949d0dc2b4a588f3e7/pkg/server/server.go#L259
   - "--log=/var/log/k3s.log"
-  - "--no-deploy=traefik" # we use nginx
+  - "--disable=traefik" # we use nginx
   - "--node-external-ip=192.168.1.241"
